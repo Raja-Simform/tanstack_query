@@ -5,7 +5,7 @@ import { apiPaths } from "../../constants/apiPath";
 import userPhoto from "../../assets/user.png";
 import dayjs from "dayjs";
 import rupee from "../../assets/rupee.png";
-import type {  UsersData } from "./UserDetailTypes";
+import type { UsersData } from "./UserDetailTypes";
 import type { AxiosResponse } from "axios";
 
 export default function UserDetail() {
@@ -17,17 +17,16 @@ export default function UserDetail() {
       return axiosInstance.get(apiPaths.userDetail(String(id)));
     },
   });
-
+  const finalData = data?.data?.data;
   if (isLoading) return <div className="text-center text-lg">Loading...</div>;
   if (error)
     return (
       <div className="text-center text-red-500">Error: {error.message}</div>
     );
 
-  if (!data || !data?.data?.data) {
+  if (!data || !finalData) {
     return <div className="text-center text-lg">User not found.</div>;
   }
-
 
   return (
     <div className="flex">
@@ -40,20 +39,20 @@ export default function UserDetail() {
         <div className="flex-1">
           <div className="mb-2">
             <span className="font-semibold">Username:</span>{" "}
-            {data.data.data.username}
+            {finalData.username}
           </div>
           <div className="mb-2">
-            <span className="font-semibold">Email:</span> {data?.data?.data?.email}
+            <span className="font-semibold">Email:</span> {finalData.email}
           </div>
         </div>
         <div className="flex-1">
           <div className=" flex  items-center gap-1  mb-2 font-bold text-blue-600">
             <img src={rupee} alt="" className="h-5" />{" "}
-            <span>{data.data.data.mobileNumber.slice(-3)}</span>
+            <span>{finalData.mobileNumber.slice(-3)}</span>
           </div>
           <div className="mb-2">
             <span className="font-semibold">Added:</span>{" "}
-            {dayjs(data.data.data.createdAt).fromNow()}
+            {dayjs(finalData.createdAt).fromNow()}
           </div>
         </div>
       </div>

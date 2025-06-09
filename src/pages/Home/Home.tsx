@@ -24,16 +24,15 @@ export default function Home() {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!data || !Array.isArray(data.data.data)) {
-   
+  if (!data || !Array.isArray(data?.data?.data)) {
     return <NotFound />;
   }
 
-  console.log("Products:", data.data.data);
+  console.log("Products:", data?.data?.data);
   return (
     <div className="flex ">
       <Filter />
-      <Card products={data.data.data} />;
+      <Card products={data?.data?.data} />;
     </div>
   );
 }
