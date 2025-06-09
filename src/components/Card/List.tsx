@@ -2,8 +2,13 @@ import rupee from "../../assets/rupee.png";
 import dayjs from "dayjs";
 import userPhoto from "../../assets/user.png";
 import type { ListViewProps } from "./CardType";
+import { useNavigate } from "react-router-dom";
 
-export default function ListView({ products, onProductClick }: ListViewProps) {
+export default function ListView({ products }: ListViewProps) {
+  const navigate = useNavigate();
+  const onProductClick = (userId: string) => {
+    navigate(`user/${userId}`);
+  };
   return (
     <div className="flex flex-col w-full">
       {products.map((product) => (

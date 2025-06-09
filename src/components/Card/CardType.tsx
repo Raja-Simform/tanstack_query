@@ -15,9 +15,7 @@ export enum View {
 }
 export interface GridViewProps {
   products: Product[];
-  onProductClick: (userId: string) => void;
 }
 export interface ListViewProps {
   products: Product[];
-  onProductClick: (userId: string) => void;
 }

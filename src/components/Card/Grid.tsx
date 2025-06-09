@@ -2,8 +2,13 @@ import rupee from "../../assets/rupee.png";
 import dayjs from "dayjs";
 import userPhoto from "../../assets/user.png";
 import type { GridViewProps } from "./CardType";
+import { useNavigate } from "react-router-dom";
 
-export default function GridView({ products, onProductClick }: GridViewProps) {
+export default function GridView({ products }: GridViewProps) {
+  const navigate = useNavigate();
+  const onProductClick = (userId: string) => {
+    navigate(`user/${userId}`);
+  };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
       {products.map((product) => (
