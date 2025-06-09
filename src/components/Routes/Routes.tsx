@@ -4,43 +4,45 @@ import Product from "../../pages/Product/Product";
 import Signup from "../../pages/Signup/Signup";
 import Layout from "../Layout/Layout";
 import NotFound from "../NotFound/NotFound";
-
+import UserDetail from "../../pages/UserDetail/UserDetail";
 export interface RouteItem {
   path: string;
   element: React.FC;
   children?: RouteItem[];
-  isAuth?:boolean;
+  isAuth?: boolean;
 }
-export const routes:RouteItem[]=[
+export const routes: RouteItem[] = [
   {
-    path:'/',
-    element:Layout,
-    children:[
+    path: "/",
+    element: Layout,
+    children: [
       {
-        path:'',
-        element:Home,
-        isAuth:true,
-        
+        path: "",
+        element: Home,
+        isAuth: true,
       },
       {
-        path:'product',
-        element:Product,
-        isAuth:true,
-      }
-
-    ]
+        path: "product",
+        element: Product,
+        isAuth: true,
+      },
+      {
+        path: "user/:id",
+        element: UserDetail,
+        isAuth: true,
+      },
+    ],
   },
   {
-    path:"/login",
-    element:Login
+    path: "/login",
+    element: Login,
   },
   {
-    path:"/signup",
-    element:Signup
+    path: "/signup",
+    element: Signup,
   },
   {
-    path:'*',
-    element:()=><NotFound/>
-  }
-
-]
+    path: "*",
+    element: () => <NotFound />,
+  },
+];
