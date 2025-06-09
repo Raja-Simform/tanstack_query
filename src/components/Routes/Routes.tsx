@@ -4,7 +4,7 @@ import Product from "../../pages/Product/Product";
 import Signup from "../../pages/Signup/Signup";
 import Layout from "../Layout/Layout";
 import NotFound from "../NotFound/NotFound";
-
+import UserDetail from "../../pages/UserDetail/UserDetail";
 export interface RouteItem {
   path: string;
   element: React.FC;
@@ -25,6 +25,11 @@ export const routes:RouteItem[]=[
       {
         path:'product',
         element:Product,
+        isAuth:true,
+      },
+      {
+        path:'user/:id',
+        element:UserDetail,
         isAuth:true,
       }
 
