@@ -14,9 +14,3 @@ export interface UsersData {
   message: string;
   data: Product;
 }
-
-export interface UserDetailApiResponse {
-  data: UsersData;
-  status: number;
-  statusText: string;
-}

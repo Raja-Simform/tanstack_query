@@ -1,22 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "../../Schema/SignupSchema";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import type { SignupApiPayload, SignupInput } from "../SignupTypes/SignupTypes";
-import useMutate from "../../hooks/useMutate";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import SignupForm from "../../components/SIgnupForm/SignupForm";
 import { apiPaths } from "../../constants/apiPath";
-import Concatenate from "../../utility/concatenate";
 import { TOKEN } from "../../constants/global.constant";
+import { axiosInstance } from "../../config/axios.config";
+import { useMutation } from "@tanstack/react-query";
 
 const signupApi = async (data: SignupApiPayload) => {
-  const response = await axios.post(
-    Concatenate(import.meta.env.VITE_API_DOMAIN, apiPaths.signup),
-    data
-  );
+  const response = await axiosInstance.post(apiPaths.signup, data);
   return response.data;
 };
+interface SignupResponse {
+  accessToken: string;
+}
 
 export default function Signup() {
   const {
@@ -28,12 +27,14 @@ export default function Signup() {
   });
 
   const navigate = useNavigate();
-
-  const { mutate, error, isLoading } = useMutate({
-    fn: signupApi,
-    onSuccess: (response) => {
+  const mutation = useMutation({
+    mutationFn: signupApi,
+    onSuccess: (response: SignupResponse) => {
       localStorage.setItem(TOKEN, response.accessToken);
       navigate("/login");
+    },
+    onError: (error: Error) => {
+      console.error("Signup failed:", error);
     },
   });
 
@@ -46,11 +47,7 @@ export default function Signup() {
       email: data.email,
     };
 
-    try {
-      await mutate(apiData);
-    } catch (err) {
-      console.error("Signup failed:", err);
-    }
+    await mutation.mutateAsync(apiData);
   };
 
   const handleToggle = () => {
@@ -68,10 +65,10 @@ export default function Signup() {
         register={register}
         errors={errors}
         onSubmit={handleSubmit(onSubmit)}
-        isLoading={isLoading}
+        isLoading={mutation.isPending}
         isSubmitting={isSubmitting}
         onToggleSignup={handleToggle}
-        errorMessage={error?.message}
+        errorMessage={mutation.error?.message}
       />
     </div>
   );
