@@ -15,8 +15,8 @@ export interface UsersData {
   data: Product;
 }
 
-export interface UserDetailApiResponse {
-  data: UsersData;
-  status: number;
-  statusText: string;
-}
+// export interface UserDetailApiResponse {
+//   data: UsersData;
+//   status: number;
+//   statusText: string;
+// }

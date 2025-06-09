@@ -5,12 +5,13 @@ import { apiPaths } from "../../constants/apiPath";
 import userPhoto from "../../assets/user.png";
 import dayjs from "dayjs";
 import rupee from "../../assets/rupee.png";
-import type { UserDetailApiResponse } from "./UserDetailTypes";
+import type {  UsersData } from "./UserDetailTypes";
+import type { AxiosResponse } from "axios";
 
 export default function UserDetail() {
   const { id } = useParams<{ id: string }>();
 
-  const { data, isLoading, error } = useQuery<UserDetailApiResponse, Error>({
+  const { data, isLoading, error } = useQuery<AxiosResponse<UsersData>, Error>({
     queryKey: ["user", id],
     queryFn: () => {
       return axiosInstance.get(apiPaths.userDetail(String(id)));
@@ -23,12 +24,10 @@ export default function UserDetail() {
       <div className="text-center text-red-500">Error: {error.message}</div>
     );
 
-  if (!data || !data.data.data) {
+  if (!data || !data?.data?.data) {
     return <div className="text-center text-lg">User not found.</div>;
   }
-  console.log(data);
-  console.log(data.data);
-  console.log(data.data.data);
+
 
   return (
     <div className="flex">
@@ -44,7 +43,7 @@ export default function UserDetail() {
             {data.data.data.username}
           </div>
           <div className="mb-2">
-            <span className="font-semibold">Email:</span> {data.data.data.email}
+            <span className="font-semibold">Email:</span> {data?.data?.data?.email}
           </div>
         </div>
         <div className="flex-1">
